@@ -1,14 +1,14 @@
-import { DomainEvents } from '@/core/events/domain-events'
-import { PaginationParams } from '@/core/repositories/pagination-params'
-import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
-import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
-import { Question } from '@/domain/forum/enterprise/entities/question'
+import { DomainEvents } from "@/core/events/domain-events"
+import { PaginationParams } from "@/core/repositories/pagination-params"
+import { QuestionAttachmentsRepository } from "@/domain/forum/application/repositories/question-attachments-repository"
+import { QuestionsRepository } from "@/domain/forum/application/repositories/questions-repository"
+import { Question } from "@/domain/forum/enterprise/entities/question"
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
   public items: Question[] = []
 
   constructor(
-    private questionAttachmentsRepository: QuestionAttachmentsRepository,
+    private questionAttachmentsRepository: QuestionAttachmentsRepository
   ) {}
 
   async findById(id: string) {
@@ -42,6 +42,10 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
   async create(question: Question) {
     this.items.push(question)
 
+    await this.questionAttachmentsRepository.createMany(
+      question.attachments.getItems()
+    )
+
     DomainEvents.dispatchEventsForAggregate(question.id)
   }
 
@@ -49,6 +53,14 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     const itemIndex = this.items.findIndex((item) => item.id === question.id)
 
     this.items[itemIndex] = question
+
+    await this.questionAttachmentsRepository.createMany(
+      question.attachments.getNewItems()
+    )
+
+    await this.questionAttachmentsRepository.deleteMany(
+      question.attachments.getRemovedItems()
+    )
 
     DomainEvents.dispatchEventsForAggregate(question.id)
   }
@@ -59,7 +71,7 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     this.items.splice(itemIndex, 1)
 
     this.questionAttachmentsRepository.deleteManyByQuestionId(
-      question.id.toString(),
+      question.id.toString()
     )
   }
 }
