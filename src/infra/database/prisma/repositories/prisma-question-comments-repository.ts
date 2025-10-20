@@ -24,6 +24,7 @@ export class PrismaQuestionCommentsRepository
 
     return PrismaQuestionCommentMapper.toDomain(questionComment)
   }
+
   async findManyByQuestionId(
     questionId: string,
     { page }: PaginationParams
@@ -63,6 +64,7 @@ export class PrismaQuestionCommentsRepository
       data,
     })
   }
+
   async delete(questionComment: QuestionComment): Promise<void> {
     await this.prisma.comment.delete({
       where: {

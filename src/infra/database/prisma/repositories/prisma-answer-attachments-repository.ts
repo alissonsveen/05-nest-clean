@@ -17,6 +17,7 @@ export class PrismaAnswerAttachmentsRepository
 
     return answerAttachments.map(PrismaAnswerAttachmentMapper.toDomain)
   }
+
   async createMany(attachments: AnswerAttachment[]): Promise<void> {
     if (attachments.length === 0) {
       return

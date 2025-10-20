@@ -1,5 +1,5 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id"
-import { ValueObject } from "@/core/entities/value-object"
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { ValueObject } from '@/core/entities/value-object'
 
 export interface CommentWithAuthorProps {
   commentId: UniqueEntityID

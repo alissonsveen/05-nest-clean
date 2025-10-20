@@ -31,7 +31,7 @@ export class FetchQuestionCommentsController {
   ) {
     const result = await this.FetchQuestionComments.execute({
       page,
-      questionId: questionId,
+      questionId,
     })
 
     if (result.isLeft()) {

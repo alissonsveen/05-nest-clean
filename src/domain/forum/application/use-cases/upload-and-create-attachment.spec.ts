@@ -1,29 +1,29 @@
-import { InMemoryAttachmentsRepository } from "test/repositories/in-memory-attachments-repository"
-import { UploadAndCreateAttachmentUseCase } from "./upload-and-create-attachment"
-import { FakeUploader } from "test/storage/fake-uploader"
-import { InvalidAttachmentType } from "./errors/invalid-attachment-type"
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { UploadAndCreateAttachmentUseCase } from './upload-and-create-attachment'
+import { FakeUploader } from 'test/storage/fake-uploader'
+import { InvalidAttachmentType } from './errors/invalid-attachment-type'
 
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let fakeUploader: FakeUploader
 
 let sut: UploadAndCreateAttachmentUseCase
 
-describe("Upload and create attachment", () => {
+describe('Upload and create attachment', () => {
   beforeEach(() => {
     inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     fakeUploader = new FakeUploader()
 
     sut = new UploadAndCreateAttachmentUseCase(
       inMemoryAttachmentsRepository,
-      fakeUploader
+      fakeUploader,
     )
   })
 
-  it("should be able to upload and create an attachment", async () => {
+  it('should be able to upload and create an attachment', async () => {
     const result = await sut.execute({
-      fileName: "profile.png",
-      fileType: "image/png",
-      body: Buffer.from(""),
+      fileName: 'profile.png',
+      fileType: 'image/png',
+      body: Buffer.from(''),
     })
 
     expect(result.isRight()).toBe(true)
@@ -33,16 +33,16 @@ describe("Upload and create attachment", () => {
     expect(fakeUploader.uploads).toHaveLength(1)
     expect(fakeUploader.uploads[0]).toEqual(
       expect.objectContaining({
-        fileName: "profile.png",
-      })
+        fileName: 'profile.png',
+      }),
     )
   })
 
-  it("should not be able to upload an attachment with invalid file type", async () => {
+  it('should not be able to upload an attachment with invalid file type', async () => {
     const result = await sut.execute({
-      fileName: "profile.mp3",
-      fileType: "audio/mpeg",
-      body: Buffer.from(""),
+      fileName: 'profile.mp3',
+      fileType: 'audio/mpeg',
+      body: Buffer.from(''),
     })
 
     expect(result.isLeft()).toBe(true)

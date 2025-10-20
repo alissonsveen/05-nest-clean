@@ -1,7 +1,7 @@
-import { AnswerCommentsRepository } from "@/domain/forum/application/repositories/answer-comments-repository"
-import { Either, right } from "@/core/either"
-import { Injectable } from "@nestjs/common"
-import { CommentWithAuthor } from "../../enterprise/entities/value-objects/comment-with-author"
+import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
+import { Either, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
+import { CommentWithAuthor } from '../../enterprise/entities/value-objects/comment-with-author'
 
 interface FetchAnswerCommentsUseCaseRequest {
   answerId: string
@@ -28,7 +28,7 @@ export class FetchAnswerCommentsUseCase {
         answerId,
         {
           page,
-        }
+        },
       )
 
     return right({

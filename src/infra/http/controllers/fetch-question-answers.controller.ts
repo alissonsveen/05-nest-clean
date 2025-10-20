@@ -31,7 +31,7 @@ export class FetchQuestionAnswersController {
   ) {
     const result = await this.FetchQuestionAnswers.execute({
       page,
-      questionId: questionId,
+      questionId,
     })
 
     if (result.isLeft()) {

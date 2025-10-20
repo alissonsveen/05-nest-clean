@@ -24,6 +24,7 @@ export class PrismaAnswersRepository implements AnswersRepository {
 
     return PrismaAnswerMapper.toDomain(answer)
   }
+
   async findManyByQuestionId(
     questionId: string,
     { page }: PaginationParams
@@ -38,6 +39,7 @@ export class PrismaAnswersRepository implements AnswersRepository {
 
     return answers.map(PrismaAnswerMapper.toDomain)
   }
+
   async create(answer: Answer): Promise<void> {
     const data = PrismaAnswerMapper.toPrisma(answer)
 
@@ -49,6 +51,7 @@ export class PrismaAnswersRepository implements AnswersRepository {
       answer.attachments.getItems()
     )
   }
+
   async save(answer: Answer): Promise<void> {
     const data = PrismaAnswerMapper.toPrisma(answer)
 
@@ -68,6 +71,7 @@ export class PrismaAnswersRepository implements AnswersRepository {
       ),
     ])
   }
+
   async delete(answer: Answer): Promise<void> {
     await this.prisma.answer.delete({
       where: {
