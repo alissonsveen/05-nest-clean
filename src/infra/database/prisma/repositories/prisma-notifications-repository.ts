@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "../prisma.service"
-import { NotificationsRepository } from "@/domain/notification/application/repositories/notifications-repository"
 import { PrismaNotificationMapper } from "../mappers/prisma-notification-mapper"
+import { NotificationsRepository } from "@/domain/notification/application/repositories/notifications-repository"
 import { Notification } from "@/domain/notification/enterprise/entities/notification"
 
 @Injectable()
@@ -10,7 +10,9 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
 
   async findById(id: string): Promise<Notification | null> {
     const notification = await this.prisma.notification.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
     })
 
     if (!notification) {
@@ -33,7 +35,7 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
 
     await this.prisma.notification.update({
       where: {
-        id: data.id,
+        id: notification.id.toString(),
       },
       data,
     })
